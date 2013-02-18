@@ -1,3 +1,4 @@
+Miikka Salomaa
 Losofacebook
 =============
 
@@ -9,3 +10,4 @@ License
 ========
 
 Losofacebook utilizes the BSD minus Soprano license. Please read it.
+
