@@ -4,7 +4,7 @@ namespace Losofacebook\Service;
 use Doctrine\DBAL\Connection;
 use Losofacebook\Person;
 use DateTime;
-
+use Memcached;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -12,10 +12,16 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class PersonService extends AbstractService
 {
-
-    public function __construct(Connection $conn)
+    /**
+     *
+     * @var Memcached
+     */
+    private $memcached;
+    
+    public function __construct(Connection $conn, Memcached $memcached)
     {
         parent::__construct($conn, 'person');
+        $this->memcached = $memcached;
     }
 
 
@@ -46,10 +52,12 @@ class PersonService extends AbstractService
 
     public function findFriends($id)
     {
-        $friends = [];
+       /* $friends = [];
         foreach ($this->findFriendIds($id) as $friendId) {
             $friends[] = $this->findById($friendId, false);
-        }
+        }*/
+         $params = $this->findFriendIds($id);
+         $friends= $this->findBy($params,[],false);
         return $friends;
     }
 
@@ -77,6 +85,10 @@ class PersonService extends AbstractService
 
     public function findFriendIds($id)
     {
+        $cacheID = "friends_ids_{$id}";
+        if($ids = $this->memcached->get($cacheID)){
+            return $ids;
+        }
         $myAdded = $this->conn->fetchAll(
             "SELECT target_id FROM friendship WHERE source_id = ?",
             [$id]
@@ -87,7 +99,7 @@ class PersonService extends AbstractService
             [$id]
         );
 
-        $myAdded = array_reduce($myAdded, function ($result, $row) {
+       $myAdded = array_reduce($myAdded, function ($result, $row) {
             $result[] = $row['target_id'];
             return $result;
         }, []);
@@ -97,7 +109,9 @@ class PersonService extends AbstractService
             return $result;
         }, []);
 
-        return array_unique(array_merge($myAdded, $meAdded));
+        $ret = array_unique(array_merge($myAdded, $meAdded));
+        $this->memcached->set($cacheID, $ret, 600);
+        return $ret;
     }
 
     /**

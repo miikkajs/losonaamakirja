@@ -20,4 +20,13 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root/index.php;
         fastcgi_param PATH_INFO $fastcgi_script_name;
     }
+
+	location / {
+		try_files $uri /index.html;
+	}
+    proxy_buffer_size   2048k;
+    proxy_buffers   4 2048k;
+    proxy_busy_buffers_size   2048k;
+    fastcgi_buffers 8 2048k;
+    fastcgi_buffer_size 2048k;
 }
