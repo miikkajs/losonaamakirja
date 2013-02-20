@@ -27,7 +27,7 @@
                 <label>Last name</label>
                 <input type="text" name="lastname" placeholder="" ng-model="user.last_name">
 
-                <button class="btn" ng-disabled="!user.first_name && !user.last_name" ng-click="search()" onclick="asd();">Submit</button>
+                <button class="btn" ng-disabled="!user.first_name && !user.last_name" ng-click="search()" onclick="spin();">Submit</button>
 
 
             </fieldset>
@@ -51,7 +51,7 @@
 
             <tbody>
                 <tr ng-repeat="person in results | orderBy:['lastName', 'firstName']">
-                    <td><img class="mini" ng-src="/api/image/{{ person.primaryImageId}}/thumb"><a href="/person/{{ person.username }}">{{ person.username}}</a></td>
+                    <td><img class="mini" ng-src="/api/image/{{ person.primaryImageId}}-mini/thumb"><a href="/person/{{ person.username }}">{{ person.username}}</a></td>
                     <td>{{ person.lastName}}</td>
                     <td>{{ person.firstName}}</td>
                     <td><a href="/company/>{{ person.company}}">{{ person.company}}</a></td>

@@ -23,7 +23,7 @@ var opts = {
 
  
     var spinner;
-function asd(){
+function spin(){
     var target = document.getElementById('main');
     spinner = new Spinner(opts);
    spinner.spin(target);
