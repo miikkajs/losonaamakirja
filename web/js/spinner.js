@@ -21,9 +21,11 @@ var opts = {
   left: 'auto' // Left position relative to parent in px
 };
 
-
+ 
+    var spinner;
 function asd(){
-//    var target = document.getElementById('main');
-//var spinner = new Spinner(opts).spin(target);
+    var target = document.getElementById('main');
+    spinner = new Spinner(opts);
+   spinner.spin(target);
     
 }

@@ -13,7 +13,10 @@ function IndexCtrl($scope, Person) {
         user.first_name = (user.first_name || '') + '%';
         user.last_name = (user.last_name || '') + '%';
 
-         $scope.results = Person.query(user);
+         $scope.results = Person.query(user,function(data){
+             spinner.stop();
+         });
+         
 
     };
 
