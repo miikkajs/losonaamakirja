@@ -71,37 +71,50 @@ class ImageService
 
     public function createCorporateVersions($id)
     {
-        $img = new Imagick($this->basePath . '/' . $id);
-        $img->thumbnailimage(450, 450, true);
+         $ending = "-mid";
+         $linkPath = '/home/user/losofacebook/web/images/'. $id . $ending.'.jpg';
+        $targetPath = $this->basePath . '/' . $id . $ending."-thumb";
+        symlink($targetPath, $linkPath);
+        
+       /* $img = new Imagick($this->basePath . '/' . $id);
+        $img->thumbnailimage(161, 161, true);
 
         $geo = $img->getImageGeometry();
 
-        $x = (500 - $geo['width']) / 2;
-        $y = (500 - $geo['height']) / 2;
+        $x = (161 - $geo['width']) / 2;
+        $y = (161 - $geo['height']) / 2;
 
         $image = new Imagick();
-        $image->newImage(500, 500, new ImagickPixel('white'));
+        $image->newImage(161, 161, new ImagickPixel('white'));
         $image->setImageFormat('jpeg');
         $image->compositeImage($img, $img->getImageCompose(), $x, $y);
 
         $thumb = clone $image;
-        $thumb->cropThumbnailimage(500, 500);
+        $thumb->cropThumbnailimage(161, 161);
         $thumb->setImageCompression(self::COMPRESSION_TYPE);
         $thumb->setImageCompressionQuality(90);
-        $thumb->writeImage($this->basePath . '/' . $id . '-thumb');
+        $thumb->writeImage($this->basePath . '/' . $id . '-mid-thumb');*/
     }
 
 
     public function createVersions($id)
     {
-        $img = new Imagick($this->basePath . '/' . $id);
+        $ending = "-midl";
+        
+       /* $img = new Imagick($this->basePath . '/' . $id);
         $thumb = clone $img;
 
-        $thumb->cropThumbnailimage(20, 20);
+        $thumb->cropThumbnailimage(153, 153);
         $thumb->setImageCompression(self::COMPRESSION_TYPE);
-        $thumb->setImageCompressionQuality(90);
+        $thumb->setImageCompressionQuality(80);
+        $thumb->setinterlacescheme(Imagick::INTERLACE_PLANE);*/
+            // $thumb->writeImage($this->basePath . '/' . $id . '-midl-thumb');
       // $thumb->set
-        $thumb->writeImage($this->basePath . '/' . $id . '-mini-thumb');
+        $linkPath = realpath($this->basePath. '/../../../web/images/'. $id . $ending.'.jpg');
+        $linkPath = '/home/user/losofacebook/web/images/'. $id . $ending.'.jpg';
+        $targetPath = $this->basePath . '/' . $id . $ending."-thumb";
+        symlink($targetPath, $linkPath);
+   
     }
 
     public function getImageResponse($id, $version = null)

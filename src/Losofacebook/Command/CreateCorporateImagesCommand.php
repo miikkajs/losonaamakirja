@@ -25,11 +25,17 @@ class CreateCorporateImagesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln("Will parse corporate images.");
-
+         $output->writeln("Will recreate images.");
         $db = $this->getDb();
+        $imageService = $this->getImageService();
+        
+        $images = $db->fetchAll("SELECT * FROM image WHERE type =  2");
+        foreach ($images as $image){
+            $imageService->createCorporateVersions($image['id']);
+            $output->writeln("Recreating versions for #{$image['id']}");
+        }
 
-
+        die;
 
         if (!$input->getArgument('skip')) {
 
