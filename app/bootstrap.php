@@ -19,9 +19,11 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Provider\MonologServiceProvider;
 use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\FirePHPHandler;
-
 $app = new Silex\Application();
 $app['debug'] = true;
+
+
+
 
 // Simulated login
 $app['dispatcher']->addListener(KernelEvents::REQUEST, function (KernelEvent $event) use ($app) {
